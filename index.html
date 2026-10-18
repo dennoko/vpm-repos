@@ -4,31 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>dennokoworks VPM Repository</title>
-  <meta name="description" content="dennokoworks 製 Unity / VRChat 向けツールの VPM (VRChat Creator Companion) パッケージ配信リポジトリです。">
+  <meta name="description" content="dennokoworks 製 Unity / VRChat 向けツールの公式 VPM (VRChat Creator Companion) パッケージ配信リポジトリです。">
 
-  <!-- Google Fonts -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #0b0f19;
-      --card-bg: rgba(18, 24, 40, 0.75);
+      --bg: #09090b;
+      --card-bg: rgba(255, 255, 255, 0.035);
+      --card-bg-hover: rgba(255, 255, 255, 0.065);
       --card-border: rgba(255, 255, 255, 0.08);
-      --card-border-hover: rgba(99, 102, 241, 0.4);
-      --primary: #4f46e5;
-      --primary-hover: #4338ca;
-      --primary-glow: rgba(79, 70, 229, 0.35);
-      --accent: #06b6d4;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      --code-bg: rgba(15, 23, 42, 0.8);
-      --badge-bg: rgba(99, 102, 241, 0.15);
-      --badge-text: #a5b4fc;
-      --badge-border: rgba(99, 102, 241, 0.3);
-      --success: #10b981;
+      --card-border-hover: rgba(255, 255, 255, 0.18);
+      --text-main: rgba(255, 255, 255, 0.95);
+      --text-muted: rgba(255, 255, 255, 0.55);
+      --text-sub: rgba(255, 255, 255, 0.38);
+      --icon-box-bg: rgba(255, 255, 255, 0.05);
+      --icon-box-border: rgba(255, 255, 255, 0.08);
+      --accent-glow: rgba(255, 255, 255, 0.05);
+      --badge-bg: rgba(255, 255, 255, 0.08);
+      --badge-text: rgba(255, 255, 255, 0.85);
+      --success: #34d399;
     }
 
     * {
@@ -39,178 +37,229 @@
 
     body {
       background-color: var(--bg);
-      background-image: 
-        radial-gradient(ellipse at 50% 0%, rgba(79, 70, 229, 0.18), transparent 55%),
-        radial-gradient(ellipse at 80% 60%, rgba(6, 182, 212, 0.08), transparent 45%);
-      background-attachment: fixed;
       color: var(--text-main);
       font-family: 'Outfit', 'Zen Kaku Gothic New', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 50px 20px 80px;
-      line-height: 1.6;
+      padding: 60px 20px 80px;
+      line-height: 1.5;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Organic Ambient Canvas Background like dennoko.com */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.65;
     }
 
     .container {
-      max-width: 720px;
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
       width: 100%;
       margin: 0 auto;
     }
 
-    /* Header */
+    /* Header Section */
     header {
-      text-align: center;
-      margin-bottom: 36px;
+      margin-bottom: 40px;
     }
 
-    .logo-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 6px 16px;
-      border-radius: 9999px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--accent);
-      margin-bottom: 16px;
-      backdrop-filter: blur(8px);
-    }
-
-    .logo-badge svg {
-      width: 14px;
-      height: 14px;
+    .category-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      margin-bottom: 8px;
     }
 
     h1 {
-      font-size: 2.35rem;
-      font-weight: 800;
-      letter-spacing: -0.025em;
-      background: linear-gradient(135deg, #ffffff 40%, #cbd5e1 70%, #818cf8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-size: 2.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    p.description {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Sections */
+    section {
+      margin-bottom: 32px;
+    }
+
+    .section-title {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-sub);
       margin-bottom: 12px;
     }
 
-    p.subtitle {
-      color: var(--text-muted);
-      font-size: 1.05rem;
-      max-width: 580px;
-      margin: 0 auto;
+    /* Grid Layouts */
+    .grid-1 {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    /* Main Card */
-    .card {
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 580px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+      h1 {
+        font-size: 1.85rem;
+      }
+      body {
+        padding: 40px 16px 60px;
+      }
+    }
+
+    /* Link Card Component (Exact dennoko.com aesthetic) */
+    .link-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 32px;
-      margin-bottom: 24px;
-      backdrop-filter: blur(16px);
-      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .card:hover {
-      border-color: var(--card-border-hover);
-      box-shadow: 0 16px 40px -12px rgba(79, 70, 229, 0.2);
-    }
-
-    /* VCC Action Section */
-    .hero-action {
-      text-align: center;
-    }
-
-    .btn-vcc {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      width: 100%;
-      max-width: 440px;
-      background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
-      color: #ffffff;
-      text-decoration: none;
-      padding: 16px 28px;
       border-radius: 14px;
-      font-weight: 700;
-      font-size: 1.15rem;
-      box-shadow: 0 4px 20px var(--primary-glow);
-      transition: all 0.25s ease;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       cursor: pointer;
-      border: none;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      user-select: none;
     }
 
-    .btn-vcc:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(99, 102, 241, 0.5);
-      background: linear-gradient(135deg, #4338ca 0%, #4f46e5 100%);
+    .link-card:hover {
+      background: var(--card-bg-hover);
+      border-color: var(--card-border-hover);
+      transform: translateY(-1px);
     }
 
-    .btn-vcc:active {
+    .link-card:active {
       transform: translateY(0);
     }
 
-    .btn-vcc svg {
-      width: 22px;
-      height: 22px;
+    /* Highlight Card for Primary "Add to VCC" CTA */
+    .link-card.primary-cta {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .link-card.primary-cta:hover {
+      background: rgba(255, 255, 255, 0.085);
+      border-color: rgba(255, 255, 255, 0.28);
+      box-shadow: 0 4px 24px rgba(255, 255, 255, 0.05);
+    }
+
+    /* Icon Box */
+    .icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: var(--icon-box-bg);
+      border: 1px solid var(--icon-box-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #ffffff;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+
+    .icon-box svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .link-card:hover .icon-box {
+      background: rgba(255, 255, 255, 0.09);
+    }
+
+    .card-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .arrow-icon {
+      color: var(--text-sub);
+      display: flex;
+      align-items: center;
+      transition: transform 0.2s, color 0.2s;
       flex-shrink: 0;
     }
 
-    .helper-text {
-      font-size: 0.85rem;
-      color: var(--text-dim);
-      margin-top: 14px;
+    .link-card:hover .arrow-icon {
+      color: var(--text-main);
+      transform: translateX(2px);
     }
 
-    .divider {
-      display: flex;
-      align-items: center;
-      text-align: center;
-      margin: 24px 0 20px;
-      color: var(--text-dim);
-      font-size: 0.8rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    .divider::before,
-    .divider::after {
-      content: '';
-      flex: 1;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .divider span {
-      padding: 0 14px;
-    }
-
-    /* URL Copy Box */
-    .copy-box {
-      background: var(--code-bg);
+    /* URL Copy Row Card */
+    .copy-card {
+      background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 6px 8px 6px 14px;
+      border-radius: 14px;
+      padding: 10px 14px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      transition: border-color 0.2s ease;
+      gap: 12px;
+      backdrop-filter: blur(8px);
     }
 
-    .copy-box:focus-within {
-      border-color: var(--primary);
-    }
-
-    .copy-box input {
+    .copy-input {
       flex: 1;
       background: transparent;
       border: none;
-      color: var(--text-main);
+      color: var(--text-muted);
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.9rem;
+      font-size: 0.84rem;
       outline: none;
       user-select: all;
     }
@@ -219,205 +268,193 @@
       background: rgba(255, 255, 255, 0.07);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: var(--text-main);
-      padding: 8px 16px;
+      padding: 6px 14px;
       border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 600;
+      font-size: 0.82rem;
+      font-weight: 500;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.2s ease;
-      white-space: nowrap;
+      transition: all 0.2s;
+      font-family: inherit;
     }
 
     .copy-btn:hover {
-      background: rgba(255, 255, 255, 0.14);
-      color: #fff;
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.2);
     }
 
     .copy-btn.copied {
-      background: rgba(16, 185, 129, 0.2);
+      background: rgba(52, 211, 153, 0.15);
       border-color: var(--success);
-      color: #34d399;
+      color: var(--success);
     }
 
-    /* Package Section */
-    .section-title {
-      display: flex;
+    /* Badges */
+    .badge {
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-bottom: 18px;
-      color: var(--text-main);
+      background: var(--badge-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--badge-text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 2px 7px;
+      border-radius: 6px;
     }
 
-    .package-list {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
+    /* Package Detail Card */
     .package-card {
-      background: rgba(15, 23, 42, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
       border-radius: 14px;
-      padding: 20px;
-      transition: all 0.2s ease;
+      padding: 18px 20px;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .package-card:hover {
-      border-color: rgba(255, 255, 255, 0.14);
-      background: rgba(15, 23, 42, 0.8);
+      background: var(--card-bg-hover);
+      border-color: var(--card-border-hover);
     }
 
-    .package-header {
+    .package-top {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
-      gap: 12px;
-      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 10px;
       margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .package-title-group {
+      display: flex;
+      flex-direction: column;
     }
 
     .package-name {
-      font-size: 1.15rem;
-      font-weight: 700;
+      font-size: 1.05rem;
+      font-weight: 600;
       color: #ffffff;
     }
 
     .package-id {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      color: var(--text-dim);
+      font-size: 0.76rem;
+      color: var(--text-sub);
       margin-top: 2px;
     }
 
-    .package-badges {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      background: var(--badge-bg);
-      color: var(--badge-text);
-      border: 1px solid var(--badge-border);
-      padding: 3px 10px;
-      border-radius: 6px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .badge-unity {
-      background: rgba(148, 163, 184, 0.12);
-      color: #cbd5e1;
-      border-color: rgba(148, 163, 184, 0.2);
-    }
-
     .package-desc {
+      font-size: 0.88rem;
       color: var(--text-muted);
-      font-size: 0.92rem;
-      margin: 10px 0 14px;
       line-height: 1.6;
+      margin: 10px 0 14px;
     }
 
-    .package-footer {
+    .package-actions {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.82rem;
-      color: var(--text-dim);
       border-top: 1px solid rgba(255, 255, 255, 0.06);
       padding-top: 12px;
-      margin-top: 12px;
+      font-size: 0.82rem;
+      color: var(--text-sub);
     }
 
-    .package-footer a {
-      color: var(--accent);
+    .package-link {
+      color: var(--text-muted);
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      transition: color 0.2s;
     }
 
-    .package-footer a:hover {
-      text-decoration: underline;
+    .package-link:hover {
+      color: #ffffff;
     }
 
-    /* Manual Steps Guide */
-    .guide-details {
-      margin-top: 20px;
-      border-top: 1px solid var(--card-border);
-      padding-top: 16px;
+    /* Accordion Guide */
+    details.guide {
+      margin-top: 12px;
     }
 
-    .guide-summary {
-      font-size: 0.9rem;
-      color: var(--text-muted);
+    details.guide summary {
+      font-size: 0.82rem;
+      color: var(--text-sub);
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
       user-select: none;
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
     }
 
-    .guide-summary:hover {
-      color: var(--text-main);
-    }
-
-    .guide-content {
-      margin-top: 14px;
-      padding: 16px;
-      background: var(--code-bg);
-      border-radius: 10px;
-      font-size: 0.88rem;
+    details.guide summary:hover {
       color: var(--text-muted);
     }
 
-    .guide-content ol {
-      padding-left: 20px;
+    details.guide summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .guide-box {
+      margin-top: 10px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .guide-box ol {
+      padding-left: 18px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
-    /* Toast Notification */
+    /* Floating Toast */
     .toast {
       position: fixed;
-      bottom: 24px;
-      background: rgba(16, 185, 129, 0.95);
-      color: #fff;
-      padding: 12px 24px;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(24, 24, 27, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 500;
       opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
       display: flex;
       align-items: center;
       gap: 8px;
-      z-index: 1000;
+      z-index: 100;
     }
 
     .toast.show {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(-50%) translateY(0);
     }
 
     /* Footer */
     footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
       text-align: center;
-      margin-top: 40px;
-      color: var(--text-dim);
-      font-size: 0.85rem;
+      font-size: 0.82rem;
+      color: var(--text-sub);
     }
 
     footer a {
@@ -427,113 +464,183 @@
     }
 
     footer a:hover {
-      color: var(--accent);
+      color: #ffffff;
     }
   </style>
 </head>
 <body>
+  <canvas id="bg-canvas"></canvas>
+
   <div class="container">
     <header>
-      <div class="logo-badge">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-        </svg>
-        <span>VPM Repository</span>
-      </div>
-      <h1>dennokoworks VPM Repository</h1>
-      <p class="subtitle">dennokoworks 製 Unity / VRChat 向け拡張ツールの公式配信リポジトリです。</p>
+      <div class="category-label">VPM REPOSITORY</div>
+      <h1>dennokoworks.vpm</h1>
+      <p class="description">
+        dennokoworks 製 Unity / VRChat 向けエディタ拡張ツールの公式 VPM パッケージ配信リポジトリです。
+      </p>
     </header>
 
-    <!-- Main VCC Action Card -->
     <main>
-      <div class="card hero-action">
-        <a id="vcc-button" class="btn-vcc" href="#">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 5v14M5 12h14"/>
-          </svg>
-          <span>VCC に追加 (Add to VCC)</span>
-        </a>
-        <p class="helper-text">
-          ※ VCC (VRChat Creator Companion) が導入されている PC 環境でクリックすると追加ダイアログが開きます。
-        </p>
+      <!-- INSTALL SECTION -->
+      <section>
+        <div class="section-title">INSTALL</div>
+        <div class="grid-1">
+          <!-- Primary CTA Link Card -->
+          <a id="vcc-button" class="link-card primary-cta" href="#">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5v14M5 12h14"/>
+              </svg>
+            </div>
+            <div class="card-info">
+              <div class="card-title">Add to VCC</div>
+              <div class="card-sub">VCC にリポジトリをワンクリックで追加</div>
+            </div>
+            <div class="arrow-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+          </a>
 
-        <div class="divider">
-          <span>または手動で登録</span>
+          <!-- URL Copy Card -->
+          <div class="copy-card">
+            <input type="text" id="repo-url" class="copy-input" readonly value="">
+            <button class="copy-btn" id="copy-btn" onclick="copyRepoUrl()" aria-label="リポジトリURLをコピー">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span id="copy-btn-text">Copy URL</span>
+            </button>
+          </div>
         </div>
 
-        <div class="copy-box">
-          <input type="text" id="repo-url" readonly value="">
-          <button class="copy-btn" id="copy-btn" onclick="copyRepoUrl()" aria-label="リポジトリURLをコピー">
-            <svg id="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        <details class="guide">
+          <summary>
+            <span>手動追加の手順を表示</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
-            <span id="copy-text">コピー</span>
-          </button>
-        </div>
-
-        <details class="guide-details">
-          <summary class="guide-summary">手動追加の手順を見る</summary>
-          <div class="guide-content">
+          </summary>
+          <div class="guide-box">
             <ol>
-              <li>上の「コピー」ボタンを押してリポジトリの URL をコピーします。</li>
+              <li>上の <code>Copy URL</code> ボタンでリポジトリ URL をコピーします。</li>
               <li>VCC (VRChat Creator Companion) を起動します。</li>
-              <li>左メニューの <strong>Settings</strong> ＞ <strong>Packages</strong> を開きます。</li>
+              <li>左サイドバーの <strong>Settings</strong> ＞ <strong>Packages</strong> タブを開きます。</li>
               <li><strong>Installed Repositories</strong> の右上にある <strong>Add Repository</strong> をクリックします。</li>
-              <li>コピーした URL を貼り付けて <strong>Add</strong> をクリックします。</li>
+              <li>コピーした URL を貼り付け、<strong>Add</strong> を押すと登録が完了します。</li>
             </ol>
           </div>
         </details>
-      </div>
+      </section>
 
-      <!-- Packages Section -->
-      <div class="card">
-        <div class="section-title">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-            <line x1="12" y1="22.08" x2="12" y2="12"></line>
-          </svg>
-          <span>収録パッケージ</span>
-        </div>
-
-        <div id="package-list" class="package-list">
-          <!-- 静的フォールバック表示 (JavaScript無効時やローカル実行時) -->
+      <!-- PACKAGES SECTION -->
+      <section>
+        <div class="section-title">PACKAGES</div>
+        <div id="package-list" class="grid-1">
+          <!-- 静的フォールバック表示 -->
           <div class="package-card" id="pkg-tool-importer">
-            <div class="package-header">
-              <div>
-                <h3 class="package-name">dennokoworks Tool Importer</h3>
+            <div class="package-top">
+              <div class="package-title-group">
+                <div class="package-name">dennokoworks Tool Importer</div>
                 <div class="package-id">com.dennokoworks.tool-importer</div>
               </div>
-              <div class="package-badges">
-                <span class="badge badge-unity">Unity 2022.3</span>
+              <div style="display: flex; gap: 6px;">
+                <span class="badge">Unity 2022.3</span>
                 <span class="badge">v0.1.0</span>
               </div>
             </div>
             <p class="package-desc">
               BOOTH Library Manager (BLM) と連携し、購入済み dennokoworks 製ツールのUnityプロジェクトへの簡単インポートおよび最新バージョン確認を行うエディタ拡張ツールです。
             </p>
-            <div class="package-footer">
-              <span>提供元: dennoko</span>
-              <a href="https://dennokoworks.booth.pm/" target="_blank" rel="noopener noreferrer">
-                BOOTH ショップ ↗
+            <div class="package-actions">
+              <span>Author: dennoko</span>
+              <a class="package-link" href="https://dennokoworks.booth.pm/" target="_blank" rel="noopener noreferrer">
+                BOOTH ↗
               </a>
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      <!-- LINKS SECTION (dennoko.com style grid) -->
+      <section>
+        <div class="section-title">LINKS</div>
+        <div class="grid-2">
+          <a class="link-card" href="https://dennoko.com" target="_blank" rel="noopener noreferrer">
+            <div class="icon-box">D</div>
+            <div class="card-info">
+              <div class="card-title">dennoko.dev</div>
+              <div class="card-sub">Portal &amp; Profiles</div>
+            </div>
+            <div class="arrow-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+          </a>
+
+          <a class="link-card" href="https://dennokoworks.booth.pm/" target="_blank" rel="noopener noreferrer">
+            <div class="icon-box">B</div>
+            <div class="card-info">
+              <div class="card-title">dennokoworks</div>
+              <div class="card-sub">BOOTH Tools &amp; Shaders</div>
+            </div>
+            <div class="arrow-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+          </a>
+
+          <a class="link-card" href="https://github.com/dennoko" target="_blank" rel="noopener noreferrer">
+            <div class="icon-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+              </svg>
+            </div>
+            <div class="card-info">
+              <div class="card-title">GitHub</div>
+              <div class="card-sub">Source code &amp; repositories</div>
+            </div>
+            <div class="arrow-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+          </a>
+
+          <a class="link-card" href="https://twitter.com/dennoko_vrc" target="_blank" rel="noopener noreferrer">
+            <div class="icon-box">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </div>
+            <div class="card-info">
+              <div class="card-title">Twitter / X</div>
+              <div class="card-sub">@dennoko_vrc</div>
+            </div>
+            <div class="arrow-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+          </a>
+        </div>
+      </section>
     </main>
 
     <footer>
-      <p>&copy; dennokoworks &bull; <a href="https://dennokoworks.booth.pm/" target="_blank" rel="noopener noreferrer">BOOTH</a> &bull; <a href="https://github.com/dennoko" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+      <p>&copy; dennokoworks &bull; <a href="https://dennoko.com" target="_blank" rel="noopener noreferrer">dennoko.dev</a></p>
     </footer>
   </div>
 
   <div id="toast" class="toast">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="20 6 9 17 4 12"></polyline>
     </svg>
-    <span>リポジトリ URL をコピーしました</span>
+    <span>Copied repository URL</span>
   </div>
 
   <script>
@@ -542,36 +649,36 @@
     const repoInput = document.getElementById("repo-url");
     const vccButton = document.getElementById("vcc-button");
     const copyBtn = document.getElementById("copy-btn");
-    const copyText = document.getElementById("copy-text");
+    const copyBtnText = document.getElementById("copy-btn-text");
     const toast = document.getElementById("toast");
 
     repoInput.value = repoJsonUrl;
     vccButton.href = "vcc://vpm/addRepo?url=" + encodeURIComponent(repoJsonUrl);
 
-    // コピー機能とトースト通知
+    // コピー機能とフィードバック
     async function copyRepoUrl() {
       try {
         await navigator.clipboard.writeText(repoJsonUrl);
-        copyBtn.classList.add("copied");
-        copyText.textContent = "コピー完了!";
-        
-        toast.classList.add("show");
-        setTimeout(() => {
-          toast.classList.remove("show");
-        }, 2500);
-
-        setTimeout(() => {
-          copyBtn.classList.remove("copied");
-          copyText.textContent = "コピー";
-        }, 3000);
       } catch (err) {
         repoInput.select();
         document.execCommand("copy");
-        alert("リポジトリURLをコピーしました: " + repoJsonUrl);
       }
+
+      copyBtn.classList.add("copied");
+      copyBtnText.textContent = "Copied!";
+      toast.classList.add("show");
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2200);
+
+      setTimeout(() => {
+        copyBtn.classList.remove("copied");
+        copyBtnText.textContent = "Copy URL";
+      }, 2800);
     }
 
-    // index.json からパッケージ一覧を動的に同期（更新時にも自動反映）
+    // index.json からパッケージ一覧を動的反映
     async function syncPackages() {
       try {
         const response = await fetch("index.json");
@@ -586,7 +693,6 @@
           const versions = Object.keys(pkgData.versions || {});
           if (versions.length === 0) continue;
 
-          // 最新バージョンを取得
           const latestVersionKey = versions[versions.length - 1];
           const latestInfo = pkgData.versions[latestVersionKey];
 
@@ -595,15 +701,15 @@
 
           const authorName = typeof latestInfo.author === "object" ? latestInfo.author.name : (latestInfo.author || data.author || "");
           const authorUrl = typeof latestInfo.author === "object" ? latestInfo.author.url : (data.url || "#");
-          const unityVer = latestInfo.unity ? `<span class="badge badge-unity">Unity ${latestInfo.unity}</span>` : "";
+          const unityVer = latestInfo.unity ? `<span class="badge">Unity ${latestInfo.unity}</span>` : "";
 
           card.innerHTML = `
-            <div class="package-header">
-              <div>
-                <h3 class="package-name">${latestInfo.displayName || latestInfo.name || pkgId}</h3>
+            <div class="package-top">
+              <div class="package-title-group">
+                <div class="package-name">${latestInfo.displayName || latestInfo.name || pkgId}</div>
                 <div class="package-id">${latestInfo.name || pkgId}</div>
               </div>
-              <div class="package-badges">
+              <div style="display: flex; gap: 6px;">
                 ${unityVer}
                 <span class="badge">v${latestInfo.version || latestVersionKey}</span>
               </div>
@@ -611,9 +717,9 @@
             <p class="package-desc">
               ${latestInfo.description || "説明はありません。"}
             </p>
-            <div class="package-footer">
-              <span>提供元: ${authorName}</span>
-              ${authorUrl ? `<a href="${authorUrl}" target="_blank" rel="noopener noreferrer">詳細リンク ↗</a>` : ""}
+            <div class="package-actions">
+              <span>Author: ${authorName}</span>
+              ${authorUrl ? `<a class="package-link" href="${authorUrl}" target="_blank" rel="noopener noreferrer">詳細 ↗</a>` : ""}
             </div>
           `;
           fragment.appendChild(card);
@@ -624,12 +730,49 @@
           packageListContainer.appendChild(fragment);
         }
       } catch (e) {
-        // ローカル実行(CORS)などの場合はフォールバックの静的表示をそのまま使用
         console.info("Using static package list fallback:", e);
       }
     }
 
     syncPackages();
+
+    // Organic Ambient Canvas Background Effect (inspired by dennoko.com)
+    (function initAmbientCanvas() {
+      const canvas = document.getElementById("bg-canvas");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+
+      let width, height;
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      let t = 0;
+      function draw() {
+        t += 0.003;
+        ctx.clearRect(0, 0, width, height);
+
+        // Center ambient soft white/gray glow
+        const cx = width * 0.5 + Math.sin(t * 0.7) * (width * 0.05);
+        const cy = height * 0.28 + Math.cos(t * 0.5) * (height * 0.04);
+        const radius = Math.max(width, height) * 0.55;
+
+        const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+        grad.addColorStop(0, "rgba(255, 255, 255, 0.045)");
+        grad.addColorStop(0.35, "rgba(255, 255, 255, 0.018)");
+        grad.addColorStop(0.7, "rgba(255, 255, 255, 0.003)");
+        grad.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, width, height);
+
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
   </script>
 </body>
 </html>
