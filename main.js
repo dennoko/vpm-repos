@@ -98,40 +98,90 @@ async function syncPackages() {
 
 syncPackages();
 
-// Organic Ambient Canvas Background Effect (inspired by dennoko.com)
-(function initAmbientCanvas() {
+// 中央に向かって明るくなる縦向きのグラデーション（正規分布による境界分散＋微細ノイズ）
+(function initGradientBackground() {
   const canvas = document.getElementById("bg-canvas");
   if (!canvas) return;
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d", { willReadFrequently: false });
 
-  let width, height;
-  function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
+  // 正規分布乱数テーブル（Box-Muller法で事前生成し高速ルックアップ）
+  const TABLE_SIZE = 8192;
+  const gaussianTable = new Float32Array(TABLE_SIZE);
+  for (let i = 0; i < TABLE_SIZE; i += 2) {
+    const u1 = Math.max(1e-7, Math.random());
+    const u2 = Math.random();
+    const r = Math.sqrt(-2.0 * Math.log(u1));
+    const theta = 2.0 * Math.PI * u2;
+    gaussianTable[i] = r * Math.cos(theta);
+    if (i + 1 < TABLE_SIZE) {
+      gaussianTable[i + 1] = r * Math.sin(theta);
+    }
   }
-  window.addEventListener("resize", resize);
-  resize();
 
-  let t = 0;
-  function draw() {
-    t += 0.003;
-    ctx.clearRect(0, 0, width, height);
-
-    // Center ambient soft white/gray glow
-    const cx = width * 0.5 + Math.sin(t * 0.7) * (width * 0.05);
-    const cy = height * 0.28 + Math.cos(t * 0.5) * (height * 0.04);
-    const radius = Math.max(width, height) * 0.55;
-
-    const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
-    grad.addColorStop(0, "rgba(255, 255, 255, 0.045)");
-    grad.addColorStop(0.35, "rgba(255, 255, 255, 0.018)");
-    grad.addColorStop(0.7, "rgba(255, 255, 255, 0.003)");
-    grad.addColorStop(1, "rgba(0, 0, 0, 0)");
-
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, width, height);
-
-    requestAnimationFrame(draw);
+  let tableIndex = 0;
+  function getGaussian() {
+    const val = gaussianTable[tableIndex];
+    tableIndex = (tableIndex + 1) % TABLE_SIZE;
+    return val;
   }
-  draw();
+
+  function render() {
+    const width = (canvas.width = window.innerWidth);
+    const height = (canvas.height = window.innerHeight);
+    if (width === 0 || height === 0) return;
+
+    const imgData = ctx.createImageData(width, height);
+    const data = imgData.data;
+
+    const centerX = width * 0.5;
+    const maxDist = width * 0.5;
+
+    // 画面端の色（ベースの暗部）: #09090b
+    const edgeR = 9;
+    const edgeG = 9;
+    const edgeB = 11;
+
+    // 中央ピーク時の加算輝度（少しトーンを目立たせた上品な明るさ）
+    const deltaR = 24;
+    const deltaG = 24;
+    const deltaB = 32;
+
+    // 階調境界を正規分布で分散させるジッターの標準偏差（幅の約 2%）
+    const jitterSigma = Math.max(12, width * 0.02);
+
+    // 背景全体になじませる微細ノイズの標準偏差
+    const noiseSigma = 1.35;
+
+    let idx = 0;
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        // 幅方向の境界位置を正規分布でジッター（カラーバンディングの境界線を分散）
+        const jitteredX = x + getGaussian() * jitterSigma;
+        const normDist = Math.min(1, Math.max(0, Math.abs(jitteredX - centerX) / maxDist));
+
+        // コサインカーブによる滑らかなグラデーション係数（中央: 1.0 -> 端: 0.0）
+        const factor = 0.5 * (1 + Math.cos(normDist * Math.PI));
+
+        // 微細なディザリング用ガウスノイズ
+        const noise = getGaussian() * noiseSigma;
+
+        data[idx] = Math.min(255, Math.max(0, (edgeR + deltaR * factor + noise + 0.5) | 0));
+        data[idx + 1] = Math.min(255, Math.max(0, (edgeG + deltaG * factor + noise + 0.5) | 0));
+        data[idx + 2] = Math.min(255, Math.max(0, (edgeB + deltaB * factor + noise + 0.5) | 0));
+        data[idx + 3] = 255;
+        idx += 4;
+      }
+    }
+
+    ctx.putImageData(imgData, 0, 0);
+  }
+
+  // 初回描画とリサイズ時のデバウンス更新
+  let resizeTimer = null;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(render, 80);
+  });
+
+  render();
 })();
