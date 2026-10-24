@@ -7,7 +7,7 @@
   "packages": {
     "com.dennokoworks.tool-importer": {
       "versions": {
-        "0.3.0": {
+        "0.2.0": {
           "name": "com.dennokoworks.tool-importer",
           "displayName": "dennokoworks Asset Importer",
           "version": "v0.3.0",
