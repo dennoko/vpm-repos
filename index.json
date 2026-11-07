@@ -32,6 +32,19 @@
           },
           "url": "https://github.com/dennoko/com.dennokoworks.tool-importer/releases/download/1.0.0/com.dennokoworks.tool-importer-1.0.0.zip",
           "zipSHA256": "b53b11f1742584309f4f90811f8b1680f76abac96f9bc9e396a953cfc026a632"
+        },
+        "1.1.0": {
+          "name": "com.dennokoworks.tool-importer",
+          "displayName": "dennokoworks Asset Importer",
+          "version": "1.1.0",
+          "description": "BOOTH Library Manager (BLM) と連携し、ダウンロード済みアセットをUnity内から直接インポートできるエディタ拡張ツール。複数のunitypackageを順番に自動処理する一括インポート機能を搭載しています。",
+          "unity": "2022.3",
+          "author": {
+            "name": "dennoko",
+            "url": "https://dennokoworks.booth.pm/"
+          },
+          "url": "https://github.com/dennoko/com.dennokoworks.tool-importer/releases/download/1.1.0/com.dennokoworks.tool-importer-1.1.0.zip",
+          "zipSHA256": "85cea634bd18b68f529cb6801affb02273bf4556edb7b18d23416864bfcd67fc"
         }
       }
     }
